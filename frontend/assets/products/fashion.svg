@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">NUVO fashion collection</title><desc id="desc">A jacket, t-shirt and sneaker in a fashion studio.</desc>
+  <rect width="800" height="640" fill="#742f3c"/><circle cx="630" cy="125" r="220" fill="#c98562" opacity=".65"/><path d="M0 520c180-90 390-45 800-120v240H0z" fill="#4d2430"/>
+  <path d="M230 130l80-36 90 36 75 75-58 65-42-35v250H230V235l-42 35-58-65z" fill="#d8c3a6" stroke="#f0dfc7" stroke-width="12" stroke-linejoin="round"/><path d="M318 100v385" stroke="#742f3c" stroke-width="8"/>
+  <path d="M505 235l50-28 50 28 42 45-34 38-28-22v150H475V296l-28 22-34-38z" fill="#e9e1d3"/>
+  <path d="M470 520h240c18 0 31 13 31 30v16H420v-16c0-17 18-30 50-30z" fill="#e2a750"/><path d="M480 490l55-20 64 25 83 28" fill="none" stroke="#efe9dd" stroke-width="20" stroke-linecap="round"/>
+</svg>

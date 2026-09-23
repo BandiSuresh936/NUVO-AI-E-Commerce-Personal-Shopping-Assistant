@@ -1,0 +1,15 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/Scripts/python.exe",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/backend"
+  ],
+  "explorer.decorations.badges": false,
+  "explorer.decorations.colors": false,
+  "files.exclude": {
+    "**/.vscode": true,
+    "**/.gitignore": true,
+    "**/.venv": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true
+  }
+}

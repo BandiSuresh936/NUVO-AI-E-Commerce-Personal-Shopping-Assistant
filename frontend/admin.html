@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NUVO Admin</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body { min-height: 100vh; }
+  .admin-shell { max-width: 1180px; margin: 0 auto; padding: 32px 20px; }
+  .admin-top { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:28px; }
+  .admin-title { font-family: var(--font-display); font-size:32px; margin:0; }
+  .admin-card { background:var(--bg-elev); border:1px solid var(--border); border-radius:var(--radius-m); box-shadow:var(--card-shadow); padding:22px; }
+  .admin-login { max-width:420px; margin:12vh auto; }
+  .admin-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .admin-table th, .admin-table td { padding:12px 10px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top; }
+  .admin-table th { color:var(--ink-soft); font-size:11px; text-transform:uppercase; letter-spacing:.05em; }
+  .status-select { border:1px solid var(--border); background:var(--bg-elev); color:var(--ink); border-radius:7px; padding:7px; }
+  .location-link { color:var(--accent-2); font-size:12px; }
+  .admin-error { color:var(--danger); font-size:13px; }
+  .admin-tabs { display:flex; gap:8px; margin-bottom:18px; }
+  .admin-tab { border:1px solid var(--border); background:var(--bg-elev); color:var(--ink-soft); border-radius:999px; padding:9px 15px; font-weight:600; cursor:pointer; }
+  .admin-tab.active { background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .admin-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px; }
+  .metric { padding:16px; background:var(--bg-sunken); border-radius:var(--radius-s); }
+  .metric strong { display:block; font-size:24px; font-family:var(--font-display); }
+  .metric span { color:var(--ink-soft); font-size:12px; }
+  .product-form { display:grid; grid-template-columns:1.4fr 1fr .7fr 1.8fr; gap:9px; align-items:end; margin-bottom:18px; }
+  .product-form .field { margin:0; }
+  .product-form button { height:40px; }
+  .active-pill { color:var(--accent-2); font-weight:700; }
+  .inactive-pill { color:var(--danger); font-weight:700; }
+  @media(max-width:800px) { .admin-grid { grid-template-columns:repeat(2,1fr); } .product-form { grid-template-columns:1fr 1fr; } }
+  @media(max-width:800px) { .admin-card { overflow:auto; } .admin-table { min-width:900px; } }
+</style>
+</head>
+<body>
+<main id="admin-root"></main>
+<script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">NUVO electronics collection</title><desc id="desc">Earbuds, a smartwatch and a speaker arranged on a warm studio background.</desc>
+  <rect width="800" height="640" fill="#173d4b"/><circle cx="640" cy="110" r="210" fill="#2f6f63" opacity=".7"/><ellipse cx="400" cy="565" rx="300" ry="34" fill="#102c38"/>
+  <rect x="330" y="165" width="140" height="290" rx="35" fill="#ece5d8"/><rect x="352" y="200" width="96" height="210" rx="18" fill="#20313a"/><path d="M365 330h70" stroke="#dca750" stroke-width="14" stroke-linecap="round"/>
+  <path d="M220 300c0-76 58-136 130-136s130 60 130 136" fill="none" stroke="#dca750" stroke-width="26" stroke-linecap="round"/><rect x="190" y="292" width="58" height="105" rx="25" fill="#ece5d8"/><rect x="452" y="292" width="58" height="105" rx="25" fill="#ece5d8"/>
+  <rect x="535" y="365" width="115" height="130" rx="30" fill="#dca750"/><circle cx="592" cy="432" r="38" fill="#173d4b"/><circle cx="592" cy="432" r="13" fill="#dca750"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">NUVO accessories collection</title><desc id="desc">A leather wallet, minimalist watch and sunglasses.</desc>
+  <rect width="800" height="640" fill="#36566a"/><circle cx="170" cy="130" r="170" fill="#7fa08e" opacity=".7"/><path d="M0 500c200-80 470-45 800-130v270H0z" fill="#263f50"/>
+  <rect x="105" y="285" width="270" height="170" rx="22" fill="#9b5d3e" transform="rotate(-8 240 370)"/><path d="M120 350h245" stroke="#d9a16e" stroke-width="7" opacity=".75"/>
+  <circle cx="500" cy="290" r="102" fill="#e6d8bc" stroke="#dca750" stroke-width="18"/><path d="M500 250v48l32 25" fill="none" stroke="#36566a" stroke-width="12" stroke-linecap="round"/><path d="M500 170v-70M500 410v70" stroke="#dca750" stroke-width="30" stroke-linecap="round"/>
+  <circle cx="625" cy="490" r="58" fill="#162b37" stroke="#dca750" stroke-width="12"/><circle cx="745" cy="490" r="58" fill="#162b37" stroke="#dca750" stroke-width="12"/><path d="M683 478h-20M568 455l-38-25M682 455l38-25" stroke="#dca750" stroke-width="12" stroke-linecap="round"/>
+</svg>
