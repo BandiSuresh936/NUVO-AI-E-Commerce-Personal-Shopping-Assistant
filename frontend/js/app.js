@@ -73,7 +73,7 @@ function ProductIcon({ icon, className }) {
 }
 const PRODUCT_IMAGES = {
   headphones: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=82",
-  band: "https://images.unsplash.com/photo-1575311373937-040b8e1fd6b0?auto=format&fit=crop&w=900&q=82",
+  band: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=82",
   speaker: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=82",
   charger: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=900&q=82",
   keyboard: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=82",
@@ -130,6 +130,22 @@ function App() {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [sortBy, setSortBy] = useState("relevance");
+  const [theme, setTheme] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem("nuvo_theme_v1");
+      return saved || "light";
+    } catch (e) {
+      return "light";
+    }
+  });
+  const [wishlist, setWishlist] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem("nuvo_wishlist_v1");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
   const [cart, setCart] = useState([]);
   const cartRef = useRef([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -168,6 +184,15 @@ function App() {
   const chatBodyRef = useRef(null);
 
   useEffect(() => { cartRef.current = cart; }, [cart]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { window.localStorage.setItem("nuvo_theme_v1", theme); } catch (e) { /* ignore */ }
+  }, [theme]);
+
+  useEffect(() => {
+    try { window.localStorage.setItem("nuvo_wishlist_v1", JSON.stringify(wishlist)); } catch (e) { /* ignore */ }
+  }, [wishlist]);
 
   // restore cart from localStorage (per-viewer convenience only)
   useEffect(() => {
@@ -261,6 +286,14 @@ function App() {
     if (sortBy === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
     return list;
   }, [query, activeCategory, sortBy, priceFilter, minRating]);
+
+  const featuredProducts = useMemo(() => {
+    return PRODUCTS.filter(product => product.rating >= 4.5).slice(0, 3);
+  }, []);
+
+  const toggleWishlist = (productId) => {
+    setWishlist(prev => prev.includes(productId) ? prev.filter(id => id !== productId) : [...prev, productId]);
+  };
 
   const cartDetailed = cart.map(c => ({ ...c, product: PRODUCTS.find(p => p.id === c.id) })).filter(c => c.product);
   const cartCount = cart.reduce((s, c) => s + c.qty, 0);
@@ -568,6 +601,17 @@ function App() {
             <input placeholder="Search products…" value={query} onChange={e => setQuery(e.target.value)} />
           </div>
           <div className="header-actions">
+            <button className="icon-btn theme-toggle" onClick={() => setTheme(t => t === "light" ? "dark" : "light")} aria-label="Toggle theme">
+              {theme === "light" ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+              )}
+            </button>
+            <button className="icon-btn wishlist-btn" onClick={() => setActiveCategory("All")} aria-label="Wishlist">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill={wishlist.length ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M12 21s-7.5-4.4-9.5-8.8C1.1 9.7 2.7 5 7 5c2.2 0 3.2 1.3 4 2.5.8-1.2 1.8-2.5 4-2.5 4.3 0 5.9 4.7 4.5 7.2C19.5 16.6 12 21 12 21z"/></svg>
+              {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
+            </button>
             <div style={{position:"relative"}}>
               <button className="icon-btn" onClick={() => { setNotifOpen(o => !o); if (!notifOpen) markNotificationsRead(); }} aria-label="Notifications">
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 10a5 5 0 0 1 10 0v4l2 4H5l2-4z"/><path d="M10.5 21a1.8 1.8 0 0 0 3 0"/></svg>
@@ -607,11 +651,21 @@ function App() {
         {!query && activeCategory === "All" && (
           <section className="hero">
             <div>
-              <h1>Shop smarter with an assistant that actually knows the catalog.</h1>
+              <div className="promo-badges">
+                <span>Fresh drops</span>
+                <span>Free shipping</span>
+                <span>Curated picks</span>
+              </div>
+              <h1>So much better than a normal storefront.</h1>
               <p>Browse {PRODUCTS.length} handpicked products across electronics, fashion, home and accessories — or just tell {ASSISTANT_NAME} what you need and let her find it and add it to your cart.</p>
               <div className="hero-actions">
                 <button className="btn accent" onClick={() => setChatOpen(true)}>Ask {ASSISTANT_NAME} to help</button>
                 <button className="btn ghost" onClick={() => document.getElementById("catalog-top")?.scrollIntoView({behavior:"smooth"})}>Browse catalog</button>
+              </div>
+              <div className="trust-row">
+                <div><strong>4.8/5</strong><span>average rating</span></div>
+                <div><strong>24h</strong><span>dispatch</span></div>
+                <div><strong>1.2k+</strong><span>happy shoppers</span></div>
               </div>
             </div>
             <div className="hero-panel">
@@ -627,6 +681,26 @@ function App() {
                 ))}
               </div>
             </div>
+          </section>
+        )}
+
+        {!query && activeCategory === "All" && (
+          <section className="feature-strip">
+            {featuredProducts.map(product => (
+              <div key={product.id} className="feature-card">
+                <div className="feature-thumb" style={mediaStyle(product)}>
+                  <ProductMedia product={product} className="feature-thumb-image" />
+                </div>
+                <div className="feature-copy">
+                  <span>{product.category}</span>
+                  <h4>{product.title}</h4>
+                  <div className="feature-meta">
+                    <strong>{formatINR(product.price)}</strong>
+                    <button onClick={() => addToCart(product.id, 1)}>Add</button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </section>
         )}
 
@@ -675,6 +749,13 @@ function App() {
                         {offPct > 0 && <span className="prod-badge off">{offPct}% OFF</span>}
                         {p.rating >= 4.6 && <span className="prod-badge best">Bestseller</span>}
                       </div>
+                      <button
+                        className={"wishlist-toggle" + (wishlist.includes(p.id) ? " active" : "")}
+                        onClick={(event) => { event.stopPropagation(); toggleWishlist(p.id); }}
+                        aria-label={wishlist.includes(p.id) ? "Remove from wishlist" : "Add to wishlist"}
+                      >
+                        <svg viewBox="0 0 24 24" fill={wishlist.includes(p.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M12 21s-7.5-4.4-9.5-8.8C1.1 9.7 2.7 5 7 5c2.2 0 3.2 1.3 4 2.5.8-1.2 1.8-2.5 4-2.5 4.3 0 5.9 4.7 4.5 7.2C19.5 16.6 12 21 12 21z"/></svg>
+                      </button>
                       <ProductMedia product={p} className="card-media-image" />
                     </div>
                     <div className="card-body">
@@ -742,9 +823,18 @@ function App() {
               </button>
               <div className="modal-cat">{selectedProduct.category}</div>
               <h2 className="modal-title">{selectedProduct.title}</h2>
-              <div className="modal-price">
-                {formatINR(selectedProduct.price)}
-                {selectedProduct.mrp && <span style={{color:"var(--ink-soft)", fontWeight:400, fontSize:15, textDecoration:"line-through", marginLeft:8}}>{formatINR(selectedProduct.mrp)}</span>}
+              <div className="modal-price-row">
+                <div className="modal-price">
+                  {formatINR(selectedProduct.price)}
+                  {selectedProduct.mrp && <span style={{color:"var(--ink-soft)", fontWeight:400, fontSize:15, textDecoration:"line-through", marginLeft:8}}>{formatINR(selectedProduct.mrp)}</span>}
+                </div>
+                <button
+                  className={"wishlist-toggle modal-wishlist" + (wishlist.includes(selectedProduct.id) ? " active" : "")}
+                  onClick={() => toggleWishlist(selectedProduct.id)}
+                  aria-label={wishlist.includes(selectedProduct.id) ? "Remove from wishlist" : "Add to wishlist"}
+                >
+                  <svg viewBox="0 0 24 24" fill={wishlist.includes(selectedProduct.id) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M12 21s-7.5-4.4-9.5-8.8C1.1 9.7 2.7 5 7 5c2.2 0 3.2 1.3 4 2.5.8-1.2 1.8-2.5 4-2.5 4.3 0 5.9 4.7 4.5 7.2C19.5 16.6 12 21 12 21z"/></svg>
+                </button>
               </div>
               <span className="card-rating" style={{marginBottom:14, display:"inline-flex"}}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6z"/></svg>
